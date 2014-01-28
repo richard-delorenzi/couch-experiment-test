@@ -15,18 +15,20 @@ namespace qcouch
 			const string contentType = "application/json;charset=utf-8";
 			headers.Add ("Authorization: Basic YWRtaW46cGFzc3dvcmQ=");
 
-			rest = new Rest(uri, contentType, headers);
+			CouchApi = new CouchApi(uri, contentType, headers);
 		}
 
 		public void CreateNew()
 		{
-			rest.Delete();
-			rest.Create();
+			CouchApi.Delete();
+			CouchApi.Create();
 		}
 
 		public void CreateSomeRides ()
 		{
 			CreateNew ();
+
+
 
 			var list = new List<object> {
 				new{
@@ -73,7 +75,7 @@ namespace qcouch
 			};
 
 			foreach (var o in list) {
-				rest.Put (
+				CouchApi.Put (
 					Guid.NewGuid().ToString(),
 					toJsonString(o)
 				);
@@ -85,7 +87,7 @@ namespace qcouch
 			return JObject.FromObject(o).ToString();
 		}
 
-		private readonly Rest rest;
+		private readonly CouchApi CouchApi;
 	}
 }
 

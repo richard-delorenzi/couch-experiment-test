@@ -52,7 +52,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="TestCreate.cs" />
     <Compile Include="QcouchDb.cs" />
-    <Compile Include="Rest.cs" />
+    <Compile Include="CouchApi.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

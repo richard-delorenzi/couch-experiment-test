@@ -4,37 +4,46 @@ using System.Net;
 
 namespace qcouch
 {
-	public class Rest
+	public class CouchApi
 	{
-		public Rest( string uri, string contextType, System.Net.WebHeaderCollection headers)
+		public CouchApi( string uri, string contentType, System.Net.WebHeaderCollection headers)
 		{
-			this.uri=uri;
-			this.contextType=contextType;
-			this.headers = headers;
+			rest = new Rest(uri, contentType, headers);
 		}
 
 		public void Delete(){
 			try {
-				Request(Method.Delete, null, null);
+				rest.Request(Rest.Method.Delete, null, null);
 			} catch {}
 		}
 
 		public void Create(){
-			Request(Method.Put, null, null);
+			rest.Request(Rest.Method.Put, null, null);
 		}
 
 		public void Put(string url, string msg)
 		{
-			Request(Method.Put, url, msg);
+			rest.Request(Rest.Method.Put, url, msg);
+		}
+
+		private readonly Rest rest;
+	}
+
+	class Rest {
+		public Rest( string uri, string contentType, System.Net.WebHeaderCollection headers)
+		{
+			this.uri=uri;
+			this.contentType=contentType;
+			this.headers = headers;
 		}
 
 		public enum Method { Delete, Put, Get, Post };
 
-		private WebResponse Request(Method method, string url, string msg)
+		public WebResponse Request(Method method, string url, string msg)
 		{
 			var request = HttpWebRequest.Create((url==null)?uri:string.Format("{0}/{1}",uri,url));
 			request.Method = method.ToString().ToUpper();
-			request.ContentType = contextType;
+			request.ContentType = contentType;
 			request.Headers = headers;
 
 			if (msg != null)
@@ -54,8 +63,8 @@ namespace qcouch
 		}
 
 		private string uri;
-		private string contextType;
-		private System.Net.WebHeaderCollection headers;
+		private string contentType;
+		private readonly System.Net.WebHeaderCollection headers;
 	}
 }
 

@@ -17,7 +17,7 @@ namespace qcouch
 		[Test]
 		public void Create()
 		{
-			new QcouchDb().Create();
+			new QcouchDb().CreateSomeRides();
 		}
 	}
 }
