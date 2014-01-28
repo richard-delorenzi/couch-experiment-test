@@ -89,8 +89,11 @@ namespace qcouch
 				}
 			}
 
-			var responce = request.GetResponse();
+			WebResponse responce=null;
+
+			responce = request.GetResponse();
 			request.Abort(); //there is no close
+
 			return responce;
 		}
 

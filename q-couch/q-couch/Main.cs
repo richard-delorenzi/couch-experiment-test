@@ -8,6 +8,7 @@ namespace qcouch
 		[STAThread]
 		public static void Main (string[] args)
 		{
+			new TestCreate().CreateBadRides();
 		}
 	}
 }

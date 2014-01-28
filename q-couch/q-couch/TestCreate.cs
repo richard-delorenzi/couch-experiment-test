@@ -21,6 +21,7 @@ namespace qcouch
 		}
 
 		[Test]
+		[ExpectedException( typeof( System.Net.WebException ) )]
 		public void CreateBadRides()
 		{
 			var db= new QcouchDb();
