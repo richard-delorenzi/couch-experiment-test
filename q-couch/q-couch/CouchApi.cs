@@ -13,24 +13,24 @@ namespace qcouch
 			rest = new Rest("application/json;charset=utf-8", headers);
 		}
 
-		public Responce Delete(){
-			return rest.Request(Rest.Method.Delete, fullUrl(null), null);
+		public void Delete(){
+			rest.Request(Rest.Method.Delete, fullUrl(null), null);
 		}
 
-		public Responce Create(){
-			return Put(null, null);
+		public void Create(){
+			Put(null, null);
 		}
 
-		public Responce Add(Guid id, object msg){
-			return Put(id.ToString(),msg);
+		public void Add(Guid id, object msg){
+			Put(id.ToString(),msg);
 		}
 
-		private Responce Put(string url, object msg)
+		private void Put(string url, object msg)
 		{
-			return rest.Request(Rest.Method.Put, fullUrl(url), toJsonString(msg));
+			rest.Request(Rest.Method.Put, fullUrl(url), toJsonString(msg));
 		}
 
-		public Responce Replicate(string from, string to)
+		public void Replicate(string from, string to)
 		{
 			var url=string.Format("{0}/_replicate",host);
 			var msg = toJsonString(new{
@@ -38,12 +38,14 @@ namespace qcouch
 				   target=to
 			});
 
-			return rest.Request(
+			responce = rest.Request(
 				Rest.Method.Post, 
 				url,
 				msg
 			);
 		}
+
+		public Responce responce {get; private set;}
 
 		private string fullUrl(string url)
 		{

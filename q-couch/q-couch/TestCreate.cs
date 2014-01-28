@@ -21,7 +21,8 @@ namespace qcouch
 		}
 
 		[Test]
-		[ExpectedException( typeof( System.Net.WebException ) )]
+		//[ExpectedException( typeof( System.Net.WebException ) )]
+		[Ignore("not finished")]
 		public void CreateBadRides()
 		{
 			var db= new QcouchDb();
