@@ -23,9 +23,13 @@ namespace qcouch
 			Put(null, null);
 		}
 
-		public void Put(string subUrl, object msg)
+		public void Add(Guid id, object msg){
+			Put(id.ToString(),msg);
+		}
+
+		private void Put(string url, object msg)
 		{
-			rest.Request(Rest.Method.Put, fullUrl(subUrl), toJsonString(msg));
+			rest.Request(Rest.Method.Put, fullUrl(url), toJsonString(msg));
 		}
 
 		public void Replicate(string from, string to)

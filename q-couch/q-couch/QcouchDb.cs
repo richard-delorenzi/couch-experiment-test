@@ -14,7 +14,7 @@ namespace qcouch
 			const string host = "http://admin:password@127.0.0.1:5984";
 			headers.Add ("Authorization: Basic YWRtaW46cGFzc3dvcmQ=");
 
-			couchApi = new CouchApi(host, db, headers);
+			_couchApi = new CouchApi(host, db, headers);
 		}
 
 		const string db = "q-couch";
@@ -75,14 +75,15 @@ namespace qcouch
 			};
 
 			foreach (var o in list) {
-				couchApi.Put (
-					Guid.NewGuid().ToString(),
+				couchApi.Add (
+					Guid.NewGuid(),
 					o
 				);
 			}
 		}
 
-		private readonly CouchApi couchApi;
+		private readonly CouchApi _couchApi;
+		public CouchApi couchApi { get { return _couchApi; } }
 	}
 }
 

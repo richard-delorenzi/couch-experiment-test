@@ -19,6 +19,22 @@ namespace qcouch
 		{
 			new QcouchDb().CreateSomeRides();
 		}
+
+		[Test]
+		public void CreateBadRides()
+		{
+			var db= new QcouchDb();
+			var api = db.couchApi;
+
+			db.CreateNew();
+			api.Add(
+				Guid.NewGuid(), 
+				new{ //no type
+					name="no description",
+					wait_time_min=0
+				});
+
+		}
 	}
 }
 
