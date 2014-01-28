@@ -1,38 +1,66 @@
 using System;
-
 using System.Net;
+using Newtonsoft.Json.Linq;
 
 namespace qcouch
 {
 	public class CouchApi
 	{
-		public CouchApi( string uri, string contentType, System.Net.WebHeaderCollection headers)
+		public CouchApi( string host, string db, System.Net.WebHeaderCollection headers)
 		{
-			rest = new Rest(uri, contentType, headers);
+			this.host=host;
+			this.db=db;
+			rest = new Rest("application/json;charset=utf-8", headers);
 		}
 
 		public void Delete(){
 			try {
-				rest.Request(Rest.Method.Delete, null, null);
+				rest.Request(Rest.Method.Delete, fullUrl(null), null);
 			} catch {}
 		}
 
 		public void Create(){
-			rest.Request(Rest.Method.Put, null, null);
+			Put(null, null);
 		}
 
-		public void Put(string url, string msg)
+		public void Put(string subUrl, object msg)
 		{
-			rest.Request(Rest.Method.Put, url, msg);
+			rest.Request(Rest.Method.Put, fullUrl(subUrl), toJsonString(msg));
+		}
+
+		public void Replicate(string from, string to)
+		{
+			var url=string.Format("{0}/_replicate",host);
+			var msg = toJsonString(new{
+				   source=from,
+				   target=to
+			});
+
+			rest.Request(
+				Rest.Method.Post, 
+				url,
+				msg
+			);
+		}
+
+		private string fullUrl(string url)
+		{
+			return string.Format( (url==null)?"{0}/{1}":"{0}/{1}/{2}",host,db,url);
+		}
+
+		private string toJsonString(object o)
+		{
+			return o==null?null:JObject.FromObject(o).ToString();
 		}
 
 		private readonly Rest rest;
+		private readonly string host;
+		private readonly string db;
 	}
 
 	class Rest {
-		public Rest( string uri, string contentType, System.Net.WebHeaderCollection headers)
+		public Rest( string contentType, System.Net.WebHeaderCollection headers)
 		{
-			this.uri=uri;
 			this.contentType=contentType;
 			this.headers = headers;
 		}
@@ -41,10 +69,10 @@ namespace qcouch
 
 		public WebResponse Request(Method method, string url, string msg)
 		{
-			var request = HttpWebRequest.Create((url==null)?uri:string.Format("{0}/{1}",uri,url));
+			var request = HttpWebRequest.Create(url);
 			request.Method = method.ToString().ToUpper();
-			request.ContentType = contentType;
 			request.Headers = headers;
+			request.ContentType = contentType;
 
 			if (msg != null)
 			{
@@ -62,7 +90,6 @@ namespace qcouch
 			return responce;
 		}
 
-		private string uri;
 		private string contentType;
 		private readonly System.Net.WebHeaderCollection headers;
 	}
