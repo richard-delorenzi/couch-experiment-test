@@ -45,7 +45,24 @@ namespace qcouch
 			);
 		}
 
-		public Responce responce {get; private set;}
+		public bool isResponceGood {
+			get {
+				var code=_responce.code;
+				return (code==HttpStatusCode.OK||
+				        code==HttpStatusCode.Created||
+				        code==HttpStatusCode.Accepted||
+				        code==HttpStatusCode.NotModified);
+			}
+		}
+
+		public Responce responce 
+		{
+			get {return _responce;} 
+			private set {
+				_responce=value;
+			}
+		}
+		private Responce _responce;
 
 		private string fullUrl(string url)
 		{
