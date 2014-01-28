@@ -1,0 +1,13 @@
+syntax: regexp
+
+#backup files
+.*~
+
+#output files
+/bin/
+/test-results/
+
+#user spacific
+.*[.]userprefs$
+
+
