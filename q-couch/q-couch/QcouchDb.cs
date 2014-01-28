@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using Newtonsoft.Json.Linq;
 
@@ -23,23 +24,60 @@ namespace qcouch
 			rest.Create();
 		}
 
-		public void Create()
+		public void CreateSomeRides ()
 		{
-			CreateNew();
+			CreateNew ();
 
-			var json = toJsonString(new
-			{
-				type="ride",
-				name="base2-test",
-				description="simple description",
-				wait_time_min=5
-			});
+			var list = new List<object> {
+				new{
+					type="ride",
+					name="base2-test",
+					description="simple description",
+					wait_time_min=5
+				},
+				new{
+					type="ride",
+					name="base-test",
+					description="hello world",
+					wait_time_min=2
+				},
+				new{
+					type="ride",
+					name="simple list description",
+					description=new string[] {"hello world"},
+					wait_time_min=3
+				},
+				new{
+					type="ride",
+					name="list description",
+					description=new string[] {"hello","world"},
+					wait_time_min=4
+				},
+				new{
+					type="ride",
+					name="no description",
+					wait_time_min=0
+				},
+				new{
+					type="ride",
+					name="false description",
+					description=false,
+					wait_time_min=5
+				},
+				new{
+					type="ride",
+					name="true description",
+					description=true,
+					wait_time_min=6
+				},
+			};
 
-			                              
-
-			rest.Put(
-				Guid.NewGuid().ToString(),
-				json );
+			foreach (var o in list) {
+				rest.Put (
+					Guid.NewGuid().ToString(),
+					toJsonString(o)
+				);
+			}
 		}
 
 		private string toJsonString(object o)
