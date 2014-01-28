@@ -13,26 +13,24 @@ namespace qcouch
 			rest = new Rest("application/json;charset=utf-8", headers);
 		}
 
-		public void Delete(){
-			try {
-				rest.Request(Rest.Method.Delete, fullUrl(null), null);
-			} catch {}
+		public Responce Delete(){
+			return rest.Request(Rest.Method.Delete, fullUrl(null), null);
 		}
 
-		public void Create(){
-			Put(null, null);
+		public Responce Create(){
+			return Put(null, null);
 		}
 
-		public void Add(Guid id, object msg){
-			Put(id.ToString(),msg);
+		public Responce Add(Guid id, object msg){
+			return Put(id.ToString(),msg);
 		}
 
-		private void Put(string url, object msg)
+		private Responce Put(string url, object msg)
 		{
-			rest.Request(Rest.Method.Put, fullUrl(url), toJsonString(msg));
+			return rest.Request(Rest.Method.Put, fullUrl(url), toJsonString(msg));
 		}
 
-		public void Replicate(string from, string to)
+		public Responce Replicate(string from, string to)
 		{
 			var url=string.Format("{0}/_replicate",host);
 			var msg = toJsonString(new{
@@ -40,7 +38,7 @@ namespace qcouch
 				   target=to
 			});
 
-			rest.Request(
+			return rest.Request(
 				Rest.Method.Post, 
 				url,
 				msg
@@ -62,6 +60,12 @@ namespace qcouch
 		private readonly string db;
 	}
 
+	public class Responce {
+		public Responce(HttpStatusCode code, string text){this.code=code; this.text=text;}
+		public HttpStatusCode code {get; private set;}
+		public string text {get; private set;} 
+	}
+
 	class Rest {
 		public Rest( string contentType, System.Net.WebHeaderCollection headers)
 		{
@@ -71,7 +75,7 @@ namespace qcouch
 
 		public enum Method { Delete, Put, Get, Post };
 
-		public WebResponse Request(Method method, string url, string msg)
+		public Responce Request(Method method, string url, string msg)
 		{
 			var request = HttpWebRequest.Create(url);
 			request.Method = method.ToString().ToUpper();
@@ -89,12 +93,30 @@ namespace qcouch
 				}
 			}
 
-			WebResponse responce=null;
+			string responceText;
+			HttpStatusCode responceCode;
 
-			responce = request.GetResponse();
+			WebResponse responce;
+			{
+				try {
+					responce = request.GetResponse();
+				} catch (System.Net.WebException e)
+				{
+					responce = e.Response;
+				}
+
+				responceCode = (responce as HttpWebResponse).StatusCode;
+				using (var data = responce.GetResponseStream())
+				using (var reader = new System.IO.StreamReader(data)) 
+				{
+					responceText = reader.ReadToEnd();
+				}
+			}
+			(responce as IDisposable).Dispose();
+
 			request.Abort(); //there is no close
 
-			return responce;
+			return new Responce(responceCode,responceText);
 		}
 
 		private string contentType;
