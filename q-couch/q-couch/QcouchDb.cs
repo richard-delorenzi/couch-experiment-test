@@ -27,7 +27,7 @@ namespace qcouch
 		{
 			CreateNew();
 
-			var json = JObject.FromObject(new
+			var json = toJsonString(new
 			{
 				type="ride",
 				name="base2-test",
@@ -39,7 +39,12 @@ namespace qcouch
 
 			rest.Put(
 				Guid.NewGuid().ToString(),
-				json.ToString() );
+				json );
+		}
+
+		private string toJsonString(object o)
+		{
+			return JObject.FromObject(o).ToString();
 		}
 
 		private readonly Rest rest;
