@@ -11,7 +11,12 @@ namespace qcouch
 		public void CreateEmpty()
 		{
 			new QcouchDb().CreateNew();
+		}
 
+		[Test]
+		public void Create()
+		{
+			new QcouchDb().Create();
 		}
 	}
 }
