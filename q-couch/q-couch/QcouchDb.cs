@@ -1,8 +1,6 @@
 using System;
 
-//json
-using System.ServiceModel.Web;
-using System.Runtime.Serialization;
+using Newtonsoft.Json.Linq;
 
 namespace qcouch
 {
@@ -27,12 +25,21 @@ namespace qcouch
 
 		public void Create()
 		{
-			//CreateNew();
+			CreateNew();
+
+			var json = JObject.FromObject(new
+			{
+				type="ride",
+				name="base2-test",
+				description="simple description",
+				wait_time_min=5
+			});
+
+			                              
 
 			rest.Put(
 				Guid.NewGuid().ToString(),
-				"{'type': 'ride', 'name': 'base2-test', 'description': 'simple discription', 'wait_time_min': 5}".Replace("'","\"")
-				);
+				json.ToString() );
 		}
 
 		private readonly Rest rest;

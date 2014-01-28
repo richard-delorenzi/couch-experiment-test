@@ -6,7 +6,7 @@ namespace qcouch
 	{
 		public static void Main (string[] args)
 		{
-			Console.WriteLine ("run be as unit test");
+			Console.WriteLine ("run as unit test");
 		}
 	}
 }
