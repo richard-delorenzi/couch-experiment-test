@@ -12,23 +12,23 @@ namespace qcouch
 			var headers = new System.Net.WebHeaderCollection();
 
 			const string host = "http://admin:password@127.0.0.1:5984";
-			const string db = "q-couch";
 			headers.Add ("Authorization: Basic YWRtaW46cGFzc3dvcmQ=");
 
 			couchApi = new CouchApi(host, db, headers);
 		}
 
+		const string db = "q-couch";
+
 		public void CreateNew()
 		{
 			couchApi.Delete();
 			couchApi.Create();
+			couchApi.Replicate(string.Format("{0}-clean",db),db);
 		}
 
 		public void CreateSomeRides ()
 		{
 			CreateNew();
-
-			couchApi.Replicate("q-couch-clean","q-couch");
 
 			var list = new List<object> {
 				new{
