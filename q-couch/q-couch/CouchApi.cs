@@ -8,30 +8,27 @@ namespace Qcouch
 {
 	public class CouchApi
 	{
-		public CouchApi( string host, string db, System.Net.WebHeaderCollection headers)
+		public CouchApi( string host, string db, System.Net.WebHeaderCollection headers, bool isSelfChecking=true)
 		{
 			this.host=host;
 			this.db=db;
+			this.IsSelfChecking=IsSelfChecking;
 			rest = new Rest("application/json;charset=utf-8", headers);
 		}
 
 		public void Delete(){
 			rest.Request(Rest.Method.Delete, FullUrl(null), null);
-			Contract.Ensures(Responce.IsGood || Responce.IsNotFound);
+			Contract.Ensures(!IsSelfChecking || Responce.IsGood || Responce.IsNotFound);
 		}
 
 		public void Create(){
 			Put(null, null);
-			Contract.Ensures(Responce.IsGood);
+			Contract.Ensures(!IsSelfChecking || Responce.IsGood);
 		}
 
 		public void Add(Guid id, object msg){
 			Put(id.ToString(),msg);
-		}
-
-		private void Put(string url, object msg)
-		{
-			rest.Request(Rest.Method.Put, FullUrl(url), msg.ToJsonString() );
+			Contract.Ensures(!IsSelfChecking || Responce.IsGood);
 		}
 
 		public void Replicate(string from, string to)
@@ -47,7 +44,7 @@ namespace Qcouch
 				url,
 				msg
 			);
-			Contract.Ensures(Responce.IsGood);
+			Contract.Ensures(!IsSelfChecking || Responce.IsGood);
 		}
 
 		public Responce Responce 
@@ -55,6 +52,12 @@ namespace Qcouch
 			get {return rest.Responce;} 
 		}
 
+		public bool IsSelfChecking {get; private set;}
+
+		private void Put(string url, object msg)
+		{
+			rest.Request(Rest.Method.Put, FullUrl(url), msg.ToJsonString() );
+		}
 
 		private string FullUrl(string url)
 		{

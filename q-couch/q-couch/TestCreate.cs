@@ -30,7 +30,7 @@ namespace Qcouch
 		[Test]
 		public void CreateRecordWithNoType()
 		{
-			var db=new QcouchDb();
+			var db=new QcouchDb(isSelfChecking:false);
 			var api=db.CouchApi;
 
 			db.CreateNew();
