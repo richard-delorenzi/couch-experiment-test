@@ -4,11 +4,14 @@ syntax: regexp
 .*~
 
 #output files
-/bin/
-/test-results/
+(^|/)test-results/
 ^TestResult.xml$
 
 #user spacific
 .*[.]userprefs$
+
+#syntax: glob
+#output
+(^|/)bin/.*
 
 
