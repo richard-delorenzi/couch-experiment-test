@@ -20,9 +20,10 @@ namespace Qcouch
 		[Test]
 		public void Create()
 		{
-			new QcouchDb().CreateSomeRides();
+			var db = new QcouchDb();
+			db.CreateNew();
+			db.CreateSomeRides();
 		}
-
 
 		#endregion
 

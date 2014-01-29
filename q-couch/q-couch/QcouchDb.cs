@@ -28,10 +28,8 @@ namespace Qcouch
 			CouchApi.Replicate(CleanDb,TestDb);
 		}
 
-		public void CreateSomeRides ()
+		public void CreateSomeRides()
 		{
-			CreateNew();
-
 			var list = new List<object> {
 				new{
 					type="ride",
@@ -69,6 +67,11 @@ namespace Qcouch
 				},
 			};
 
+			CreateSomeRecords(list);
+		}
+
+		private void CreateSomeRecords(List<object> list)
+		{
 			foreach (var o in list) {
 				CouchApi.Add (
 					Guid.NewGuid(),
