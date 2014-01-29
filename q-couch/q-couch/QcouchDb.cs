@@ -28,7 +28,7 @@ namespace Qcouch
 			CouchApi.Replicate(CleanDb,TestDb);
 		}
 
-		public void CreateSomeRides()
+		public List<Guid> CreateSomeRides()
 		{
 			var list = new List<object> {
 				new{
@@ -67,17 +67,39 @@ namespace Qcouch
 				},
 			};
 
+			return CreateSomeRecords(list);
+		}
+
+		public void CreateSomeRideStatus(List<Guid> guids)
+		{
+			var _guids = guids.GetEnumerator();
+			_guids.MoveNext();
+
+
+			var list = new List<object> {
+				new{
+					type="ride-status",
+					attraction_id= _guids.Current.ToString(),
+					wait_time_min=6
+				},
+			};
 			CreateSomeRecords(list);
 		}
 
-		private void CreateSomeRecords(List<object> list)
+
+		private List<Guid> CreateSomeRecords(List<object> list)
 		{
+			var Result = new List<Guid>();
+
 			foreach (var o in list) {
+				var guid = Guid.NewGuid();
 				CouchApi.Add (
-					Guid.NewGuid(),
+					guid,
 					o
 				);
+				Result.Add(guid);
 			}
+			return Result;
 		}
 
 		private readonly CouchApi _couchApi;
