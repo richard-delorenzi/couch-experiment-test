@@ -23,7 +23,6 @@ namespace Qcouch
 			var db = new QcouchDbCreateVariousRideRecords();
 			db.CreateNew();
 			db.CreateSomeRides();
-
 		}
 
 		[Test]
@@ -50,10 +49,10 @@ namespace Qcouch
 			db.CreateNew();
 			api.Add(
 				Guid.NewGuid(), 
-				new{ 
+				JObject.FromObject(new{ 
 					name="no description",
 					wait_time_min=0
-				}
+				})
 			);
 
 			CheckForbidden(db,"The 'type' field is required.");

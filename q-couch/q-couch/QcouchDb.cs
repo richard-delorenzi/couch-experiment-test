@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using Newtonsoft.Json.Linq;
+
 using Richard.Json;
 
 namespace Qcouch
@@ -39,12 +40,13 @@ namespace Qcouch
 		}
 
 		protected void CreateRideStatus(JObject o){
-			CreateRecord( new {type="ride-status", attraction_id=RideId(o.AsString("ride_name")), wait_time_min=o.AsString("wait_time_min") });
+			CreateRecord( JObject.FromObject(new {type="ride-status", attraction_id=RideId(o.AsString("ride_name")), wait_time_min=o.AsString("wait_time_min") }));
 		}
 
 		protected void CreateRide(JObject o){
-			var desc=o.AsString("description");
-			CreateRecord( new {type="ride", name=o.AsString("name"), description= (desc==null)?null:desc });
+			var typeToken = JToken.FromObject("ride");
+			o.Add( "type", typeToken );
+			CreateRecord( o );
 		}
 
 		protected delegate void CreateMethod(JObject o);
@@ -55,7 +57,7 @@ namespace Qcouch
 			}
 		}
 
-		private void CreateRecord(object o)
+		private void CreateRecord(JObject o)
 		{
 			var guid = Guid.NewGuid();
 			CouchApi.Add (

@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using Richard.Contracts;
 using Richard.Json;
+using Newtonsoft.Json.Linq;
 
 
 namespace Qcouch
@@ -26,7 +27,7 @@ namespace Qcouch
 			Contract.Ensures(!IsSelfChecking || Responce.IsGood);
 		}
 
-		public void Add(Guid id, object msg){
+		public void Add(Guid id, JObject msg){
 			Put(id.ToString(),msg);
 			Contract.Ensures(!IsSelfChecking || Responce.IsGood);
 		}
@@ -63,7 +64,7 @@ namespace Qcouch
 
 		public bool IsSelfChecking {get; private set;}
 
-		private void Put(string url, object msg)
+		private void Put(string url, JObject msg)
 		{
 			rest.Request(Rest.Method.Put, FullUrl(url), msg.ToJsonString() );
 		}
