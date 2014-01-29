@@ -60,6 +60,7 @@
     <Compile Include="TestCreate.cs" />
     <Compile Include="QcouchDb.cs" />
     <Compile Include="CouchApi.cs" />
+    <Compile Include="Rest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
