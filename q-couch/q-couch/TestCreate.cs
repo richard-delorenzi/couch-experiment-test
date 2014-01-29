@@ -23,7 +23,7 @@ namespace Qcouch
 			var db = new QcouchDbCreateVariousRideRecords();
 			db.CreateNew();
 			db.CreateSomeRides();
-			db.CreateSomeRideStatus();
+
 		}
 
 		[Test]

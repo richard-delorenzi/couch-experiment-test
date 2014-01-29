@@ -62,6 +62,7 @@
     <Compile Include="CouchApi.cs" />
     <Compile Include="Rest.cs" />
     <Compile Include="QcouchDbCreateVariousRideRecords.cs" />
+    <Compile Include="QcouchDbCreateRides.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

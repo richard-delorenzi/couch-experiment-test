@@ -24,17 +24,6 @@ namespace Qcouch
 			};
 			CreateSomeRecords(list, CreateRide);
 		}
-
-		public void CreateSomeRideStatus()
-		{
-			var list = new List<object> {
-				new{
-					ride_name="base-test",
-					wait_time_min=6
-				},
-			};
-			CreateSomeRecords(list, CreateRideStatus);
-		}
 	}
 }
 
