@@ -1,0 +1,5 @@
+#link .hg/subpaths to here. note you may, in the future, have to link to latest one when looking back in time.
+
+
+[subpaths]
+^git\+ssh://git@github\.com:([^/]*)/([^/]*)/([^/]*)$ = git+ssh://git@github.com:\1/\3
