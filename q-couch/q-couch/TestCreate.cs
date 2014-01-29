@@ -1,7 +1,9 @@
 using System;
+using System.Net;
 using System.Collections.Generic;
 using NUnit;
 using NUnit.Framework;
+using Newtonsoft.Json.Linq;
 
 namespace Qcouch
 {
@@ -21,8 +23,7 @@ namespace Qcouch
 		}
 
 		[Test]
-		//[ExpectedException( typeof( System.Net.WebException ) )]
-		[Ignore("not finished")]
+		//[Ignore("not finished")]
 		public void CreateBadRides()
 		{
 			var db= new QcouchDb();
@@ -35,7 +36,9 @@ namespace Qcouch
 					name="no description",
 					wait_time_min=0
 				});
-
+			Assert.That(db.couchApi.Responce.Code, Is.EqualTo(HttpStatusCode.Forbidden));
+			var ResponceTextFromJson = JObject.Parse(db.couchApi.Responce.Text);
+			Assert.That(ResponceTextFromJson, Is.EqualTo( JObject.FromObject( new{ error="forbidden", reason="The 'type' field is required."})));
 		}
 	}
 }

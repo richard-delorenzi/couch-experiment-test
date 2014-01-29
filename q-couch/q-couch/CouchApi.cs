@@ -22,6 +22,7 @@ namespace Qcouch
 
 		public void Create(){
 			Put(null, null);
+			Contract.Ensures(Responce.IsGood);
 		}
 
 		public void Add(Guid id, object msg){
@@ -30,22 +31,23 @@ namespace Qcouch
 
 		private void Put(string url, object msg)
 		{
-			rest.Request(Rest.Method.Put, FullUrl(url), ToJsonString(msg));
+			rest.Request(Rest.Method.Put, FullUrl(url), msg.ToJsonString() );
 		}
 
 		public void Replicate(string from, string to)
 		{
 			var url=string.Format("{0}/_replicate",host);
-			var msg = ToJsonString(new{
+			var msg = new{
 				   source=from,
 				   target=to
-			});
+			}.ToJsonString();
 
 			rest.Request(
 				Rest.Method.Post, 
 				url,
 				msg
 			);
+			Contract.Ensures(Responce.IsGood);
 		}
 
 		public Responce Responce 
@@ -57,11 +59,6 @@ namespace Qcouch
 		private string FullUrl(string url)
 		{
 			return string.Format( (url==null)?"{0}/{1}":"{0}/{1}/{2}",host,db,url);
-		}
-
-		private string ToJsonString(object o)
-		{
-			return o==null?null:JObject.FromObject(o).ToString();
 		}
 
 		private readonly Rest rest;
@@ -147,6 +144,15 @@ namespace Qcouch
 
 		private string contentType;
 		private readonly System.Net.WebHeaderCollection headers;
+	}
+
+	public static partial class JsonExtensions
+	{
+		public static string ToJsonString(this object o)
+		{
+			return o==null?null:JObject.FromObject(o).ToString();
+		}
+
 	}
 }
 
