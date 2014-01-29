@@ -20,7 +20,7 @@ namespace Qcouch
 		[Test]
 		public void Create()
 		{
-			var db = new QcouchDb();
+			var db = new QcouchDbCreateVariousRideRecords();
 			db.CreateNew();
 			db.CreateSomeRides();
 			db.CreateSomeRideStatus();
@@ -29,7 +29,7 @@ namespace Qcouch
 		[Test]
 		public void RideHasGuid()
 		{
-			var db = new QcouchDb();
+			var db = new QcouchDbCreateVariousRideRecords();
 			db.CreateNew();
 			db.CreateSomeRides();
 

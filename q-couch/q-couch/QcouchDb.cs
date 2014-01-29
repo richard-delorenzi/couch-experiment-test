@@ -29,37 +29,6 @@ namespace Qcouch
 			CouchApi.Replicate(CleanDb,TestDb);
 		}
 
-		public void CreateSomeRides()
-		{
-			var list= new List<object>{
-				new{name="base2-test", description="simple description"},
-				new{name="base-test",  description="hello world"},
-				new{
-					name="simple list description",
-					description=new string[] {"hello world"}
-				},
-				new{
-					name="list description",
-					description=new string[] {"hello","world"}
-				},
-				new{name="no description"},
-				new{name="false description", description=false},
-				new{name="true description", description=true},
-			};
-			CreateSomeRecords(list, CreateRide);
-		}
-
-		public void CreateSomeRideStatus()
-		{
-			var list = new List<object> {
-				new{
-					ride_name="base-test",
-					wait_time_min=6
-				},
-			};
-			CreateSomeRecords(list, CreateRideStatus);
-		}
-
 		public string RideId(string rideName)
 		{
 			CouchApi.Get("_design/couch-experiment/_view/ride-id-by-name",rideName);
@@ -69,17 +38,17 @@ namespace Qcouch
 			return id.ToString();
 		}
 
-		private void CreateRideStatus(JObject o){
+		protected void CreateRideStatus(JObject o){
 			CreateRecord( new {type="ride-status", attraction_id=RideId(o.AsString("ride_name")), wait_time_min=o.AsString("wait_time_min") });
 		}
 
-		private void CreateRide(JObject o){
+		protected void CreateRide(JObject o){
 			var desc=o.AsString("description");
 			CreateRecord( new {type="ride", name=o.AsString("name"), description= (desc==null)?null:desc });
 		}
 
-		private delegate void CreateMethod(JObject o);
-		private void CreateSomeRecords(List<object> list, CreateMethod create)
+		protected delegate void CreateMethod(JObject o);
+		protected void CreateSomeRecords(List<object> list, CreateMethod create)
 		{
 			foreach (var o in list) {
 				create(JObject.FromObject(o));
