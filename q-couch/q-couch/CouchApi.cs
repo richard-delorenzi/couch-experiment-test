@@ -47,9 +47,13 @@ namespace Qcouch
 			Contract.Ensures(!IsSelfChecking || Responce.IsGood);
 		}
 
-		public JObject Get(string doc, string key=null)
+		public void Get(string designName, string key=null)
 		{
-			return new JObject();
+			var url = FullUrl(designName);
+			if (key != null){
+				url = string.Format("{0}?key=\"{1}\"",url,key);
+			}
+			rest.Request(Rest.Method.Get, url, null);
 		}
 
 		public Responce Responce 
