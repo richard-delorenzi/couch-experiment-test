@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Newtonsoft.Json.Linq;
 
-namespace qcouch
+namespace Qcouch
 {
 	public class QcouchDb
 	{

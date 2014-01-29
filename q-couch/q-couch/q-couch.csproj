@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>qcouch</RootNamespace>
     <AssemblyName>q-couch</AssemblyName>
-    <StartupObject>qcouch.MainClass</StartupObject>
+    <StartupObject>Qcouch.MainClass</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -62,4 +62,10 @@
     <Compile Include="CouchApi.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\library\library.csproj">
+      <Project>{CED70D6F-7BA4-48C3-B805-1B7A7D319993}</Project>
+      <Name>library</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

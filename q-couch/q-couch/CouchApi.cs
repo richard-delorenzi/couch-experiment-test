@@ -1,9 +1,10 @@
 using System;
 using System.Net;
 using Newtonsoft.Json.Linq;
+using Richard.Contracts;
 
 
-namespace qcouch
+namespace Qcouch
 {
 	public class CouchApi
 	{
@@ -15,8 +16,8 @@ namespace qcouch
 		}
 
 		public void Delete(){
-			rest.Request(Rest.Method.Delete, fullUrl(null), null);
-
+			rest.Request(Rest.Method.Delete, FullUrl(null), null);
+			Contract.Ensures(Responce.IsGood || Responce.IsNotFound);
 		}
 
 		public void Create(){
@@ -29,49 +30,36 @@ namespace qcouch
 
 		private void Put(string url, object msg)
 		{
-			rest.Request(Rest.Method.Put, fullUrl(url), toJsonString(msg));
+			rest.Request(Rest.Method.Put, FullUrl(url), ToJsonString(msg));
 		}
 
 		public void Replicate(string from, string to)
 		{
 			var url=string.Format("{0}/_replicate",host);
-			var msg = toJsonString(new{
+			var msg = ToJsonString(new{
 				   source=from,
 				   target=to
 			});
 
-			responce = rest.Request(
+			rest.Request(
 				Rest.Method.Post, 
 				url,
 				msg
 			);
 		}
 
-		public bool isResponceGood {
-			get {
-				var code=_responce.code;
-				return (code==HttpStatusCode.OK||
-				        code==HttpStatusCode.Created||
-				        code==HttpStatusCode.Accepted||
-				        code==HttpStatusCode.NotModified);
-			}
-		}
-
-		public Responce responce 
+		public Responce Responce 
 		{
-			get {return _responce;} 
-			private set {
-				_responce=value;
-			}
+			get {return rest.Responce;} 
 		}
-		private Responce _responce;
 
-		private string fullUrl(string url)
+
+		private string FullUrl(string url)
 		{
 			return string.Format( (url==null)?"{0}/{1}":"{0}/{1}/{2}",host,db,url);
 		}
 
-		private string toJsonString(object o)
+		private string ToJsonString(object o)
 		{
 			return o==null?null:JObject.FromObject(o).ToString();
 		}
@@ -82,9 +70,22 @@ namespace qcouch
 	}
 
 	public class Responce {
-		public Responce(HttpStatusCode code, string text){this.code=code; this.text=text;}
-		public HttpStatusCode code {get; private set;}
-		public string text {get; private set;} 
+		public Responce(HttpStatusCode code, string text){this.Code=code; this.Text=text;}
+		public HttpStatusCode Code {get; private set;}
+		public string Text {get; private set;}
+
+		public bool IsGood {
+			get {
+				return (Code==HttpStatusCode.OK||
+				        Code==HttpStatusCode.Created||
+				        Code==HttpStatusCode.Accepted||
+				        Code==HttpStatusCode.NotModified);
+			}
+		}
+
+		public bool IsNotFound {
+			get { return Code==HttpStatusCode.NotFound; }
+		}
 	}
 
 	class Rest {
@@ -96,7 +97,7 @@ namespace qcouch
 
 		public enum Method { Delete, Put, Get, Post };
 
-		public Responce Request(Method method, string url, string msg)
+		public void Request(Method method, string url, string msg)
 		{
 			var request = HttpWebRequest.Create(url);
 			request.Method = method.ToString().ToUpper();
@@ -137,7 +138,11 @@ namespace qcouch
 
 			request.Abort(); //there is no close
 
-			return new Responce(responceCode,responceText);
+			Responce = new Responce(responceCode,responceText);
+		}
+
+		public Responce Responce {
+			get; private set;
 		}
 
 		private string contentType;

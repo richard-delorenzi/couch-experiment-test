@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NUnit;
 using NUnit.Framework;
 
-namespace qcouch
+namespace Qcouch
 {
 	[TestFixture]
 	public class TestCreate

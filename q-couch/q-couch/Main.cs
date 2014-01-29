@@ -1,7 +1,7 @@
 using System;
 
 
-namespace qcouch
+namespace Qcouch
 {
 	class MainClass
 	{

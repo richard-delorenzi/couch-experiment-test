@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "q-couch", "q-couch\q-couch.csproj", "{0F1E2FAC-89D5-4CBD-95E6-D9C7AFF538D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "library", "..\library\library.csproj", "{CED70D6F-7BA4-48C3-B805-1B7A7D319993}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{0F1E2FAC-89D5-4CBD-95E6-D9C7AFF538D9}.Debug|x86.Build.0 = Debug|x86
 		{0F1E2FAC-89D5-4CBD-95E6-D9C7AFF538D9}.Release|x86.ActiveCfg = Release|x86
 		{0F1E2FAC-89D5-4CBD-95E6-D9C7AFF538D9}.Release|x86.Build.0 = Release|x86
+		{CED70D6F-7BA4-48C3-B805-1B7A7D319993}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CED70D6F-7BA4-48C3-B805-1B7A7D319993}.Debug|x86.Build.0 = Debug|Any CPU
+		{CED70D6F-7BA4-48C3-B805-1B7A7D319993}.Release|x86.ActiveCfg = Release|Any CPU
+		{CED70D6F-7BA4-48C3-B805-1B7A7D319993}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = q-couch\q-couch.csproj
