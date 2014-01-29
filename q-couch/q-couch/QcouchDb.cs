@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using Newtonsoft.Json.Linq;
+using Richard.Json;
 
 namespace Qcouch
 {
@@ -69,12 +70,12 @@ namespace Qcouch
 		}
 
 		private void CreateRideStatus(JObject o){
-			CreateRecord( new {type="ride-status", attraction_id=RideId(o["ride_name"].ToString()), wait_time_min=o["wait_time_min"].ToString() });
+			CreateRecord( new {type="ride-status", attraction_id=RideId(o.AsString("ride_name")), wait_time_min=o.AsString("wait_time_min") });
 		}
 
 		private void CreateRide(JObject o){
-			var desc=o["description"];
-			CreateRecord( new {type="ride", name=o["name"].ToString(), description= (desc==null)?null:desc.ToString() });
+			var desc=o.AsString("description");
+			CreateRecord( new {type="ride", name=o.AsString("name"), description= (desc==null)?null:desc });
 		}
 
 		private delegate void CreateMethod(JObject o);
