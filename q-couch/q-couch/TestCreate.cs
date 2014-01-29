@@ -23,22 +23,31 @@ namespace Qcouch
 		}
 
 		[Test]
-		//[Ignore("not finished")]
-		public void CreateBadRides()
+		public void CreateRecordWithNoType()
 		{
-			var db= new QcouchDb();
-			var api = db.couchApi;
+			var db=new QcouchDb();
+			var api=db.couchApi;
 
 			db.CreateNew();
 			api.Add(
 				Guid.NewGuid(), 
-				new{ //no type
+				new{ 
 					name="no description",
 					wait_time_min=0
-				});
+				}
+			);
+
+			CheckForbidden(db,"The 'type' field is required.");
+		}
+
+		private void CheckForbidden(QcouchDb db, string reason)
+		{
 			Assert.That(db.couchApi.Responce.Code, Is.EqualTo(HttpStatusCode.Forbidden));
-			var ResponceTextFromJson = JObject.Parse(db.couchApi.Responce.Text);
-			Assert.That(ResponceTextFromJson, Is.EqualTo( JObject.FromObject( new{ error="forbidden", reason="The 'type' field is required."})));
+			var responceTextFromJson=JObject.Parse(db.couchApi.Responce.Text);
+			var errorTxt=responceTextFromJson["error"].ToString();
+			var reasonTxt=responceTextFromJson["reason"].ToString();
+			Assert.That(errorTxt, Is.EqualTo("forbidden"));
+			Assert.That(reasonTxt, Is.EqualTo(reason));
 		}
 	}
 }
