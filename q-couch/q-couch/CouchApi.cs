@@ -1,7 +1,7 @@
 using System;
 using System.Net;
-using Newtonsoft.Json.Linq;
 using Richard.Contracts;
+using Richard.Json;
 
 
 namespace Qcouch
@@ -158,13 +158,5 @@ namespace Qcouch
 		private readonly System.Net.WebHeaderCollection headers;
 	}
 
-	public static partial class JsonExtensions
-	{
-		public static string ToJsonString(this object o)
-		{
-			return o==null?null:JObject.FromObject(o).ToString();
-		}
-
-	}
 }
 
