@@ -72,7 +72,7 @@ namespace Qcouch
 
 		public void CreateSomeRideStatus()
 		{
-			var id=RideId("base-test");
+			var id=RideId(rideName:"base-test");
 
 			var list = new List<object> {
 				new{
@@ -82,6 +82,11 @@ namespace Qcouch
 				},
 			};
 			CreateSomeRecords(list);
+		}
+
+		public string RideId(string rideName)
+		{
+			return "z";
 		}
 
 
