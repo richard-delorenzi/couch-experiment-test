@@ -86,7 +86,9 @@ namespace Qcouch
 
 		public string RideId(string rideName)
 		{
-			return "z";
+			var o = CouchApi.Get("_design/couch-experiment/_view/ride-id-by-name",rideName);
+			var id=o["rows"]["id"];
+			return id.ToString();
 		}
 
 

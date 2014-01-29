@@ -23,7 +23,19 @@ namespace Qcouch
 			var db = new QcouchDb();
 			db.CreateNew();
 			db.CreateSomeRides();
-			db.CreateSomeRideStatus();
+			//db.CreateSomeRideStatus();
+		}
+
+		[Test]
+		public void RideHasGuid()
+		{
+			var db = new QcouchDb();
+			db.CreateNew();
+			db.CreateSomeRides();
+
+			var id=db.RideId("base2-test");
+			Guid tmp;
+			Assert.That(Guid.TryParse(id,out tmp), Is.True);
 		}
 
 		#endregion

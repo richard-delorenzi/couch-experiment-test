@@ -47,6 +47,11 @@ namespace Qcouch
 			Contract.Ensures(!IsSelfChecking || Responce.IsGood);
 		}
 
+		public JObject Get(string doc, string key=null)
+		{
+			return new JObject();
+		}
+
 		public Responce Responce 
 		{
 			get {return rest.Responce;} 
