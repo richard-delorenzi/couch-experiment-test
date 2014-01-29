@@ -14,16 +14,18 @@ namespace qcouch
 			const string host = "http://admin:password@127.0.0.1:5984";
 			headers.Add ("Authorization: Basic YWRtaW46cGFzc3dvcmQ=");
 
-			_couchApi = new CouchApi(host, db, headers);
+			_couchApi = new CouchApi(host, _dbBaseName, headers);
 		}
 
-		const string db = "q-couch";
+		private const string _dbBaseName = "q-couch";
+		private string cleanDb { get { return string.Format("{0}-clean", _dbBaseName); } }
+		private string testDb  { get { return string.Format("{0}-test", _dbBaseName); } }
 
 		public void CreateNew()
 		{
 			couchApi.Delete();
-			couchApi.Create();
-			couchApi.Replicate(string.Format("{0}-clean",db),db);
+			//couchApi.Create();
+			//couchApi.Replicate(cleanDb,testDb);
 		}
 
 		public void CreateSomeRides ()
