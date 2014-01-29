@@ -22,8 +22,8 @@ namespace Qcouch
 		{
 			var db = new QcouchDb();
 			db.CreateNew();
-			var guids = db.CreateSomeRides();
-			db.CreateSomeRideStatus(guids);
+			db.CreateSomeRides();
+			db.CreateSomeRideStatus();
 		}
 
 		#endregion
