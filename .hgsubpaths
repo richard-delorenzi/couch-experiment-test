@@ -3,3 +3,4 @@
 
 [subpaths]
 ^git\+ssh://git@github\.com:([^/]*)/([^/]*)/([^/]*)$ = git+ssh://git@github.com:\1/\3
+
