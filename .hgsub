@@ -1,1 +1,4 @@
 library = /C-sharp-code-library.git
+
+[subpath]
+^git\+ssh://github\.com/([^/]*)/([^/]*)/([^/]*)$ = git+ssh://github.com/\1/\3.git
