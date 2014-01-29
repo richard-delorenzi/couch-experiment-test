@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using Newtonsoft.Json.Linq;
 
+
 namespace qcouch
 {
 	public class CouchApi
@@ -15,6 +16,7 @@ namespace qcouch
 
 		public void Delete(){
 			rest.Request(Rest.Method.Delete, fullUrl(null), null);
+
 		}
 
 		public void Create(){

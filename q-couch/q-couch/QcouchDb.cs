@@ -14,7 +14,7 @@ namespace qcouch
 			const string host = "http://admin:password@127.0.0.1:5984";
 			headers.Add ("Authorization: Basic YWRtaW46cGFzc3dvcmQ=");
 
-			_couchApi = new CouchApi(host, _dbBaseName, headers);
+			_couchApi = new CouchApi(host, testDb, headers);
 		}
 
 		private const string _dbBaseName = "q-couch";
@@ -24,8 +24,8 @@ namespace qcouch
 		public void CreateNew()
 		{
 			couchApi.Delete();
-			//couchApi.Create();
-			//couchApi.Replicate(cleanDb,testDb);
+			couchApi.Create();
+			couchApi.Replicate(cleanDb,testDb);
 		}
 
 		public void CreateSomeRides ()
