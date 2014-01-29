@@ -10,6 +10,7 @@ namespace Qcouch
 	[TestFixture]
 	public class TestCreate
 	{
+		#region test_good
 		[Test]
 		public void CreateEmpty()
 		{
@@ -22,11 +23,15 @@ namespace Qcouch
 			new QcouchDb().CreateSomeRides();
 		}
 
+
+		#endregion
+
+		#region test_bad
 		[Test]
 		public void CreateRecordWithNoType()
 		{
 			var db=new QcouchDb();
-			var api=db.couchApi;
+			var api=db.CouchApi;
 
 			db.CreateNew();
 			api.Add(
@@ -42,13 +47,14 @@ namespace Qcouch
 
 		private void CheckForbidden(QcouchDb db, string reason)
 		{
-			Assert.That(db.couchApi.Responce.Code, Is.EqualTo(HttpStatusCode.Forbidden));
-			var responceTextFromJson=JObject.Parse(db.couchApi.Responce.Text);
+			Assert.That(db.CouchApi.Responce.Code, Is.EqualTo(HttpStatusCode.Forbidden));
+			var responceTextFromJson=JObject.Parse(db.CouchApi.Responce.Text);
 			var errorTxt=responceTextFromJson["error"].ToString();
 			var reasonTxt=responceTextFromJson["reason"].ToString();
 			Assert.That(errorTxt, Is.EqualTo("forbidden"));
 			Assert.That(reasonTxt, Is.EqualTo(reason));
 		}
+		#endregion
 	}
 }
 
