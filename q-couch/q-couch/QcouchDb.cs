@@ -30,58 +30,33 @@ namespace Qcouch
 
 		public void CreateSomeRides()
 		{
-			var list = new List<object> {
+			var list= new List<object>{
+				new{name="base2-test", description="simple description"},
+				new{name="base-test",  description="hello world"},
 				new{
-					type="ride",
-					name="base2-test",
-					description="simple description",
-				},
-				new{
-					type="ride",
-					name="base-test",
-					description="hello world",
-				},
-				new{
-					type="ride",
 					name="simple list description",
-					description=new string[] {"hello world"},
+					description=new string[] {"hello world"}
 				},
 				new{
-					type="ride",
 					name="list description",
-					description=new string[] {"hello","world"},
+					description=new string[] {"hello","world"}
 				},
-				new{
-					type="ride",
-					name="no description",
-				},
-				new{
-					type="ride",
-					name="false description",
-					description=false,
-				},
-				new{
-					type="ride",
-					name="true description",
-					description=true,
-				},
+				new{name="no description"},
+				new{name="false description", description=false},
+				new{name="true description", description=true},
 			};
-
-			CreateSomeRecords(list);
+			CreateSomeRecords(list, CreateRide);
 		}
 
 		public void CreateSomeRideStatus()
 		{
-			var id=RideId(rideName:"base-test");
-
 			var list = new List<object> {
 				new{
-					type="ride-status",
-					attraction_id= id,
+					ride_name="base-test",
 					wait_time_min=6
 				},
 			};
-			CreateSomeRecords(list);
+			CreateSomeRecords(list, CreateRideStatus);
 		}
 
 		public string RideId(string rideName)
@@ -93,16 +68,30 @@ namespace Qcouch
 			return id.ToString();
 		}
 
+		private void CreateRideStatus(JObject o){
+			CreateRecord( new {type="ride-status", attraction_id=RideId(o["ride_name"].ToString()), wait_time_min=o["wait_time_min"].ToString() });
+		}
 
-		private void CreateSomeRecords(List<object> list)
+		private void CreateRide(JObject o){
+			var desc=o["description"];
+			CreateRecord( new {type="ride", name=o["name"].ToString(), description= (desc==null)?null:desc.ToString() });
+		}
+
+		private delegate void CreateMethod(JObject o);
+		private void CreateSomeRecords(List<object> list, CreateMethod create)
 		{
 			foreach (var o in list) {
-				var guid = Guid.NewGuid();
-				CouchApi.Add (
-					guid,
-					o
-				);
+				create(JObject.FromObject(o));
 			}
+		}
+
+		private void CreateRecord(object o)
+		{
+			var guid = Guid.NewGuid();
+			CouchApi.Add (
+				guid,
+				o
+			);
 		}
 
 		private readonly CouchApi _couchApi;
