@@ -12,22 +12,19 @@ namespace Qcouch
 	{
 		#region test_good
 		[Test]
-		public void CreateEmpty()
-		{
+		public void CreateEmpty(){
 			new QcouchDb().CreateNew();
 		}
 
 		[Test]
-		public void Create()
-		{
+		public void Create(){
 			var db = new QcouchDbCreateVariousRideRecords();
 			db.CreateNew();
 			db.CreateSomeRides();
 		}
 
 		[Test]
-		public void RideHasGuid()
-		{
+		public void RideHasGuid(){
 			var db = new QcouchDbCreateVariousRideRecords();
 			db.CreateNew();
 			db.CreateSomeRides();
@@ -35,6 +32,16 @@ namespace Qcouch
 			var id=db.RideId("base2-test");
 			Guid tmp;
 			Assert.That(Guid.TryParse(id,out tmp), Is.True);
+		}
+
+		[Test]
+		public void ReadRideList(){
+			Assert.Fail();
+		}
+
+		[Test]
+		public void HasHas(){
+			Assert.Fail();
 		}
 
 		#endregion
