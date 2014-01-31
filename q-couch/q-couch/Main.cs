@@ -10,7 +10,7 @@ namespace Qcouch
 		{
 			var tests = new TestCreate();
 			tests.Create();
-			tests.ReadRideList();
+			tests.HasIfdef();
 		}
 	}
 }

@@ -56,7 +56,6 @@ namespace Qcouch
 
 		[Test]
 		public void HasIfdef(){
-#if false
 			var db = DbWithVariousRideRecords();
 			var ridesQuery = db.Rides();
 
@@ -64,16 +63,14 @@ namespace Qcouch
 			{
 				var ifdefAttrSet = new HashSet<string>();
 				var AttrSet = new HashSet<string>();
-				foreach (var child in ride.Children())
+				foreach (var child in ride.Children()) //child is JToken
 				{
-					var childName = child.ToString();
+					var childName =  ( child as JProperty ).Name; //assert that child is also a JProperty, and get its name
 					var childBaseName = childName.WithStripedLeaderOf("ifdef_");
 					(childBaseName.HadLeader?ifdefAttrSet:AttrSet).Add(childBaseName.Text);
 				}
 				Assert.That(ifdefAttrSet, Is.EqualTo(AttrSet));
 			}
-#endif
-			Assert.Fail();
 		}
 
 		#endregion
