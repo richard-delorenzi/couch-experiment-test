@@ -14,7 +14,7 @@ namespace Qcouch
 			this.host=host;
 			this.db=db;
 			this.IsSelfChecking=IsSelfChecking;
-			rest = new Rest("application/json;charset=utf-8", headers);
+			rest = new Rest("application/json", "application/json", headers);
 		}
 
 		public void Delete(){

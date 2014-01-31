@@ -39,6 +39,14 @@ namespace Qcouch
 			return id.ToString();
 		}
 
+		public JObject Rides()
+		{
+			CouchApi.Get("_design/couch-experiment/_list/index/rides");
+			var responce = CouchApi.Responce.Text.ToString();
+			var o = JObject.Parse(responce);
+			return o;
+		}
+
 		protected void CreateRideStatus(JObject o){
 			CreateRecord( JObject.FromObject(new {type="ride-status", attraction_id=RideId(o.AsString("ride_name")), wait_time_min=o.AsString("wait_time_min") }));
 		}

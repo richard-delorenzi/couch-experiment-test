@@ -8,7 +8,9 @@ namespace Qcouch
 		[STAThread]
 		public static void Main (string[] args)
 		{
-			new TestCreate().Create();
+			var tests = new TestCreate();
+			tests.Create();
+			tests.ReadRideList();
 		}
 	}
 }

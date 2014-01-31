@@ -4,9 +4,10 @@ using System.Net;
 namespace Qcouch
 {
 	public class Rest {
-		public Rest( string contentType, System.Net.WebHeaderCollection headers)
+		public Rest( string contentType, string acceptType, System.Net.WebHeaderCollection headers)
 		{
 			this.contentType=contentType;
+			this.acceptType=acceptType;
 			this.headers = headers;
 		}
 
@@ -14,10 +15,11 @@ namespace Qcouch
 
 		public void Request(Method method, string url, string msg)
 		{
-			var request = HttpWebRequest.Create(url);
+			var request = HttpWebRequest.Create(url) as HttpWebRequest;
 			request.Method = method.ToString().ToUpper();
 			request.Headers = headers;
 			request.ContentType = contentType;
+			request.Accept= acceptType;
 
 			if (msg != null)
 			{
@@ -61,6 +63,7 @@ namespace Qcouch
 		}
 
 		private string contentType;
+		private string acceptType;
 		private readonly System.Net.WebHeaderCollection headers;
 	}
 
