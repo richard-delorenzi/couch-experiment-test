@@ -12,11 +12,15 @@ namespace Qcouch
 		public QcouchDb (bool isSelfChecking=true)
 		{
 			var headers = new System.Net.WebHeaderCollection();
-
-			const string host = "http://admin:password@127.0.0.1:5984";
 			headers.Add ("Authorization: Basic YWRtaW46cGFzc3dvcmQ=");
 
-			CouchApi = new CouchApi(host, host +"/"+TestDb, headers, isSelfChecking:isSelfChecking);
+			const string replicationHost = "http://admin:password@127.0.0.1:5984";
+
+			CouchApi = new CouchApi( 
+			    replicationHost: replicationHost, 
+			    baseUrl: replicationHost+ "/" +TestDb, 
+			    headers: headers, 
+			    isSelfChecking:isSelfChecking);
 		}
 
 		private const string DbBaseName = "q-couch";
