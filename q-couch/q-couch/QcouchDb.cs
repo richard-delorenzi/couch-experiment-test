@@ -16,7 +16,7 @@ namespace Qcouch
 			const string host = "http://admin:password@127.0.0.1:5984";
 			headers.Add ("Authorization: Basic YWRtaW46cGFzc3dvcmQ=");
 
-			CouchApi = new CouchApi(host, TestDb, headers, isSelfChecking:isSelfChecking);
+			CouchApi = new CouchApi(host, host +"/"+TestDb, headers, isSelfChecking:isSelfChecking);
 		}
 
 		private const string DbBaseName = "q-couch";

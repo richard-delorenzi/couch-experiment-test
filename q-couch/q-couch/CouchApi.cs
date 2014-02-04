@@ -9,10 +9,10 @@ namespace Qcouch
 {
 	public class CouchApi
 	{
-		public CouchApi( string host, string db, System.Net.WebHeaderCollection headers, bool isSelfChecking=true)
+		public CouchApi( string replicationHost, string baseUrl, System.Net.WebHeaderCollection headers, bool isSelfChecking=true)
 		{
-			this.host=host;
-			this.db=db;
+			this.replicationHost=replicationHost;
+			this.baseUrl=baseUrl;
 			this.IsSelfChecking=IsSelfChecking;
 			rest = new Rest("application/json", "application/json", headers);
 		}
@@ -34,7 +34,7 @@ namespace Qcouch
 
 		public void Replicate(string from, string to)
 		{
-			var url=string.Format("{0}/_replicate",host);
+			var url=string.Format("{0}/_replicate",replicationHost);
 			var msg = new{
 				   source=from,
 				   target=to
@@ -71,12 +71,12 @@ namespace Qcouch
 
 		private string FullUrl(string url)
 		{
-			return string.Format( (url==null)?"{0}/{1}":"{0}/{1}/{2}",host,db,url);
+			return string.Format( (url==null)?"{0}":"{0}/{1}",baseUrl,url);
 		}
 
 		private readonly Rest rest;
-		private readonly string host;
-		private readonly string db;
+		private readonly string replicationHost;
+		private readonly string baseUrl;
 	}
 }
 
