@@ -41,7 +41,7 @@ namespace Qcouch
 
 		public JObject Rides()
 		{
-			CouchApi.Get("_design/couch-experiment/_list/index/rides");
+			CouchApi.Get("_design/couch-experiment/_list/rides/rides");
 			var responce = CouchApi.Responce.Text.ToString();
 			var o = JObject.Parse(responce);
 			return o;
