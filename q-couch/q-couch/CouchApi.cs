@@ -9,32 +9,32 @@ namespace Qcouch
 {
 	public class CouchApi
 	{
-		public CouchApi( string replicationHost, string baseUrl, System.Net.WebHeaderCollection headers, bool isSelfChecking=true)
+		public CouchApi( string createionHost, string baseUrl, System.Net.WebHeaderCollection headers, bool isSelfChecking=true)
 		{
-			this.replicationHost=replicationHost;
+			this.createionHost=createionHost;
 			this.baseUrl=baseUrl;
 			this.IsSelfChecking=IsSelfChecking;
 			rest = new Rest("application/json", "application/json", headers);
 		}
 
 		public void Delete(){
-			rest.Request(Rest.Method.Delete, FullUrl(null), null);
+			rest.Request(Rest.Method.Delete, FullUrl(""), null);
 			Contract.Ensures(!IsSelfChecking || Responce.IsGood || Responce.IsNotFound);
 		}
 
 		public void Create(){
-			Put(null, null);
+			Put(url:"", msg:null);
 			Contract.Ensures(!IsSelfChecking || Responce.IsGood);
 		}
 
 		public void Add(Guid id, JObject msg){
-			Put(id.ToString(),msg);
+			Put("db/" +id.ToString(),msg);
 			Contract.Ensures(!IsSelfChecking || Responce.IsGood);
 		}
 
 		public void Replicate(string from, string to)
 		{
-			var url=string.Format("{0}/_replicate",replicationHost);
+			var url=string.Format("{0}/_replicate",createionHost);
 			var msg = new{
 				   source=from,
 				   target=to
@@ -75,7 +75,7 @@ namespace Qcouch
 		}
 
 		private readonly Rest rest;
-		private readonly string replicationHost;
+		private readonly string createionHost;
 		private readonly string baseUrl;
 	}
 }

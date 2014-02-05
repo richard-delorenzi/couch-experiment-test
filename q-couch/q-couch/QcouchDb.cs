@@ -11,32 +11,35 @@ namespace Qcouch
 	{
 		public QcouchDb (bool isSelfChecking=true)
 		{
-			var headers = new System.Net.WebHeaderCollection();
 			headers.Add ("Authorization: Basic YWRtaW46cGFzc3dvcmQ=");
 
-			const string replicationHost = "http://admin:password@127.0.0.1:5984";
-
 			CouchApi = new CouchApi( 
-			    replicationHost: replicationHost, 
-			    baseUrl: replicationHost+ "/" +TestDb, 
+			    createionHost: CreateionHost, 
+			    baseUrl: "http://admin:password@qcouch:5984",
 			    headers: headers, 
 			    isSelfChecking:isSelfChecking);
 		}
-
+		private string CreateionHost { get { return "http://admin:password@127.0.0.1:5984"; } }
+		private readonly System.Net.WebHeaderCollection headers = new System.Net.WebHeaderCollection();
 		private const string DbBaseName = "q-couch";
 		private string CleanDb { get { return string.Format("{0}-clean", DbBaseName); } }
 		private string TestDb  { get { return string.Format("{0}-test", DbBaseName); } }
 
 		public void CreateNew()
 		{
-			CouchApi.Delete();
-			CouchApi.Create();
-			CouchApi.Replicate(CleanDb,TestDb);
+			var api = new CouchApi( 
+			    createionHost: CreateionHost, 
+			    baseUrl: CreateionHost+"/"+TestDb,
+			    headers: headers, 
+			    isSelfChecking:false);
+			api.Delete();
+			api.Create();
+			api.Replicate(CleanDb,TestDb);
 		}
 
 		public string RideId(string rideName)
 		{
-			CouchApi.Get("_design/couch-experiment/_view/ride-id-by-name",rideName);
+			CouchApi.Get("./ride-id-by-name",rideName);
 			var responce = CouchApi.Responce.Text.ToString();
 			var o = JObject.Parse(responce);
 			var id=o["rows"][0]["id"];
@@ -45,7 +48,7 @@ namespace Qcouch
 
 		public JObject Rides()
 		{
-			CouchApi.Get("_design/couch-experiment/_list/rides/rides");
+			CouchApi.Get("./rides");
 			var responce = CouchApi.Responce.Text.ToString();
 			var o = JObject.Parse(responce);
 			return o;

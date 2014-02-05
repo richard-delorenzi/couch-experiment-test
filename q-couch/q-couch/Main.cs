@@ -9,8 +9,7 @@ namespace Qcouch
 		public static void Main (string[] args)
 		{
 			var tests = new TestCreate();
-			tests.Create();
-			tests.HasIfdef();
+			tests.CreateEmpty();
 		}
 	}
 }
