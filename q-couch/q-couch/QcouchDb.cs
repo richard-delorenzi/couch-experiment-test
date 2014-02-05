@@ -31,7 +31,7 @@ namespace Qcouch
 
 		public void CreateNew()
 		{
-			//can't use api from constructor untill db exists and has rewrite rules.
+			//can't use api from constructor until db exists and has rewrite rules.
 			var api = new CouchApi( 
 			    urlHostPart: CreateionHostPart, 
 			    urlDbPart: TestDb,
@@ -40,6 +40,7 @@ namespace Qcouch
 			api.Delete();
 			api.Create();
 			api.Replicate(CleanDb,TestDb);
+			//:bug: need to sync
 		}
 
 		public string RideId(string rideName)
