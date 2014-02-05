@@ -29,7 +29,7 @@ namespace Qcouch
 		{
 			var api = new CouchApi( 
 			    createionHost: CreateionHost, 
-			    baseUrl: CreateionHost+"/"+TestDb,
+			    baseUrl: string.Format("{0}/{1}",CreateionHost, TestDb),
 			    headers: headers, 
 			    isSelfChecking:false);
 			api.Delete();
