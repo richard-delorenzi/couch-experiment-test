@@ -34,7 +34,7 @@ namespace Qcouch
 
 		public void Replicate(string from, string to)
 		{
-			var url=string.Format("{0}/_replicate",createionHost);
+			var url=string.Format("{0}/../_replicate",baseUrl);
 			var msg = new{
 				   source=from,
 				   target=to
