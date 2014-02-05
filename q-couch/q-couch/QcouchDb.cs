@@ -14,12 +14,16 @@ namespace Qcouch
 			headers.Add ("Authorization: Basic YWRtaW46cGFzc3dvcmQ=");
 
 			CouchApi = new CouchApi( 
-			    createionHost: CreateionHost, 
-			    baseUrl: "http://admin:password@qcouch:5984",
+			    urlHostPart: HostPart, 
+			    urlDbPart: ".",
 			    headers: headers, 
 			    isSelfChecking:isSelfChecking);
 		}
-		private string CreateionHost { get { return "http://admin:password@127.0.0.1:5984"; } }
+		private string HostPart { get { return HostPartFromDomainName("qcouch"); } }
+		private string CreateionHostPart { get { return HostPartFromDomainName("127.0.0.1"); } }
+		private string HostPartFromDomainName(string domainNamePart){
+			return string.Format("http://admin:password@{0}:5984",domainNamePart);
+		}
 		private readonly System.Net.WebHeaderCollection headers = new System.Net.WebHeaderCollection();
 		private const string DbBaseName = "q-couch";
 		private string CleanDb { get { return string.Format("{0}-clean", DbBaseName); } }
@@ -27,9 +31,10 @@ namespace Qcouch
 
 		public void CreateNew()
 		{
+			//can't use api from constructor untill db exists and has rewrite rules.
 			var api = new CouchApi( 
-			    createionHost: CreateionHost, 
-			    baseUrl: string.Format("{0}/{1}",CreateionHost, TestDb),
+			    urlHostPart: CreateionHostPart, 
+			    urlDbPart: TestDb,
 			    headers: headers, 
 			    isSelfChecking:false);
 			api.Delete();
