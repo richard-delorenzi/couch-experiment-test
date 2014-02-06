@@ -11,7 +11,18 @@ namespace Qcouch
 	[TestFixture]
 	public class TestCreate
 	{
-		#region test_good
+		#region rides
+		[Test]
+		public void RideList(){
+			var db = new QcouchDbCreateRides();
+			db.CreateNew();
+			db.CreateSomeRides();
+		}
+
+		#endregion
+
+
+		#region rides_of_different_types
 		[Test]
 		public void CreateEmpty(){
 			new QcouchDb().CreateNew();
