@@ -20,7 +20,10 @@ namespace Qcouch
 			    isSelfChecking:isSelfChecking);
 		}
 
-		private readonly System.Net.WebHeaderCollection headers = new System.Net.WebHeaderCollection();
+		private string Rewrite( string docName)
+		{
+			return string.Format("_design/couch-experiment/_rewrite/{0}",docName);
+		}
 		private const string DbBaseName = "q-couch";
 		private string CleanDb { get { return string.Format("{0}-clean", DbBaseName); } }
 		private string TestDb  { get { return string.Format("{0}-test", DbBaseName); } }
@@ -30,12 +33,11 @@ namespace Qcouch
 			CouchApi.Delete();
 			CouchApi.Create();
 			CouchApi.Replicate(CleanDb,TestDb);
-			//:bug: need to sync
 		}
 
 		public string RideId(string rideName)
 		{
-			CouchApi.Get("_design/couch-experiment/_rewrite/ride-id-by-name",rideName);
+			CouchApi.Get(Rewrite("ride-id-by-name"),rideName);
 			var responce = CouchApi.Responce.Text.ToString();
 			var o = JObject.Parse(responce);
 			var id=o["rows"][0]["id"];
@@ -44,7 +46,7 @@ namespace Qcouch
 
 		public JObject Rides()
 		{
-			CouchApi.Get("_design/couch-experiment/_rewrite/rides");
+			CouchApi.Get(Rewrite("rides"));
 			var responce = CouchApi.Responce.Text.ToString();
 			var o = JObject.Parse(responce);
 			return o;
@@ -78,6 +80,7 @@ namespace Qcouch
 		}
 
 		public readonly CouchApi CouchApi;
+		private readonly System.Net.WebHeaderCollection headers = new System.Net.WebHeaderCollection();
 	}
 }
 
