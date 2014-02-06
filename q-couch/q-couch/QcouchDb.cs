@@ -14,16 +14,12 @@ namespace Qcouch
 			headers.Add ("Authorization: Basic YWRtaW46cGFzc3dvcmQ=");
 
 			CouchApi = new CouchApi( 
-			    urlHostPart: HostPart, 
-			    urlDbPart: ".",
+			    urlHostPart: "http://admin:password@127.0.0.1:5984", 
+			    urlDbPart: "q-couch-test",
 			    headers: headers, 
 			    isSelfChecking:isSelfChecking);
 		}
-		private string HostPart { get { return HostPartFromDomainName("qcouch"); } }
-		private string CreateionHostPart { get { return HostPartFromDomainName("127.0.0.1"); } }
-		private string HostPartFromDomainName(string domainNamePart){
-			return string.Format("http://admin:password@{0}:5984",domainNamePart);
-		}
+
 		private readonly System.Net.WebHeaderCollection headers = new System.Net.WebHeaderCollection();
 		private const string DbBaseName = "q-couch";
 		private string CleanDb { get { return string.Format("{0}-clean", DbBaseName); } }
@@ -31,21 +27,15 @@ namespace Qcouch
 
 		public void CreateNew()
 		{
-			//can't use api from constructor until db exists and has rewrite rules.
-			var api = new CouchApi( 
-			    urlHostPart: CreateionHostPart, 
-			    urlDbPart: TestDb,
-			    headers: headers, 
-			    isSelfChecking:false);
-			api.Delete();
-			api.Create();
-			api.Replicate(CleanDb,TestDb);
+			CouchApi.Delete();
+			CouchApi.Create();
+			CouchApi.Replicate(CleanDb,TestDb);
 			//:bug: need to sync
 		}
 
 		public string RideId(string rideName)
 		{
-			CouchApi.Get("./ride-id-by-name",rideName);
+			CouchApi.Get("_design/couch-experiment/_rewrite/ride-id-by-name",rideName);
 			var responce = CouchApi.Responce.Text.ToString();
 			var o = JObject.Parse(responce);
 			var id=o["rows"][0]["id"];
@@ -54,7 +44,7 @@ namespace Qcouch
 
 		public JObject Rides()
 		{
-			CouchApi.Get("./rides");
+			CouchApi.Get("_design/couch-experiment/_rewrite/rides");
 			var responce = CouchApi.Responce.Text.ToString();
 			var o = JObject.Parse(responce);
 			return o;

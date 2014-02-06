@@ -28,7 +28,7 @@ namespace Qcouch
 		}
 
 		public void Add(Guid id, JObject msg){
-			Put("db/" +id.ToString(),msg);
+			Put(id.ToString(),msg);
 			Contract.Ensures(!IsSelfChecking || Responce.IsGood);
 		}
 
