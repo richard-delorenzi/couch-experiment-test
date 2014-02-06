@@ -9,6 +9,7 @@ namespace Qcouch
 		{
 			var list= new List<object>{
 				new{name="fast one", description="it is fast"},
+				new{name="slow one", description="it is slow"},
 			};
 			CreateSomeRecords(list, CreateRide);
 		}
@@ -20,6 +21,10 @@ namespace Qcouch
 					ride_name="fast one",
 					wait_time_min=6
 				},
+				new{
+					ride_name="slow one",
+					wait_time_min=4
+				}
 			};
 			CreateSomeRecords(list, CreateRideStatus);
 		}

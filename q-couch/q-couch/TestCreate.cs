@@ -17,8 +17,8 @@ namespace Qcouch
 			var db = new QcouchDbCreateRides();
 			db.CreateNew();
 			db.CreateSomeRides();
+			db.CreateSomeRideStatus();
 		}
-
 		#endregion
 
 
@@ -65,6 +65,7 @@ namespace Qcouch
 			Assert.That(count, Is.EqualTo(db.NumberOfRidesCreated));
 		}
 
+#if false // integrated tested ignores "explicit" and "category"
 		[Test]
 		public void HasIfdef(){
 			var db = DbWithVariousRideRecords();
@@ -83,6 +84,7 @@ namespace Qcouch
 				Assert.That(ifdefAttrSet, Is.EqualTo(AttrSet));
 			}
 		}
+#endif
 
 		#endregion
 
