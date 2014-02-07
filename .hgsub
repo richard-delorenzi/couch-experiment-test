@@ -1,4 +1,4 @@
 #warning: may have re-clone problems (better to use subpath)
 
-library = ../C-sharp-code-library.git
+tests/library = ../C-sharp-code-library.git
 
