@@ -45,13 +45,13 @@
     <Reference Include="System.Net" />
     <Reference Include="System.Core" />
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\..\..\..\..\usr\lib\cli\Newtonsoft.Json-4.5\Newtonsoft.Json.dll</HintPath>
+      <HintPath>\usr\lib\cli\Newtonsoft.Json-4.5\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit-gui-runner">
-      <HintPath>..\..\..\..\..\..\..\..\usr\lib\nunit\nunit-gui-runner.dll</HintPath>
+      <HintPath>\usr\lib\nunit\nunit-gui-runner.dll</HintPath>
     </Reference>
     <Reference Include="nunit-console-runner">
-      <HintPath>..\..\..\..\..\..\..\..\usr\lib\nunit\nunit-console-runner.dll</HintPath>
+      <HintPath>\usr\lib\nunit\nunit-console-runner.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
