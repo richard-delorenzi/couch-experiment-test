@@ -53,7 +53,16 @@ namespace Qcouch
 		}
 
 		protected void CreateRideStatus(JObject o){
-			CreateRecord( JObject.FromObject(new {type="ride-status", attraction_id=RideId(o.AsString("ride_name")), wait_time_min=o.AsString("wait_time_min") }));
+			var typeToken = JToken.FromObject("ride-status");
+			o.Add( "type", typeToken );
+
+			var attraction_id=RideId(o.AsString("ride_name"));
+			var idToken = JToken.FromObject(attraction_id);
+			o.Add("attraction_id", idToken);
+
+			o.Remove("ride_name");
+
+			CreateRecord( o );
 		}
 
 		protected void CreateRide(JObject o){
