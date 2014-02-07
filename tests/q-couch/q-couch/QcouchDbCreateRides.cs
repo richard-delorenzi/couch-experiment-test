@@ -19,11 +19,13 @@ namespace Qcouch
 			var list = new List<object> {
 				new{
 					ride_name="fast one",
-					wait_time_min=6
+					wait_time_min=7,
+					state="closed"
 				},
 				new{
 					ride_name="slow one",
-					wait_time_min=4
+					zwait_time_min=5,
+					zstate="open"
 				}
 			};
 			CreateSomeRecords(list, CreateRideStatus);
