@@ -9,7 +9,7 @@ namespace Qcouch
 		public static void Main (string[] args)
 		{
 			var tests = new TestWaitTimeModifiers();
-			tests.HasWaitTimeMods();
+			tests.WaitTimeModView();
 		}
 	}
 }

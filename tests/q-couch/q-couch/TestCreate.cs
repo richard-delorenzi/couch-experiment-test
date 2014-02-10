@@ -25,10 +25,14 @@ namespace Qcouch
 		public void Setup(){}
 
 		[Test]
-		public void HasWaitTimeMods(){
+		public void WaitTimeModView(){
 			Init();
 			var waitTimeModifiersQuery = db.WaitTimeModifiers();
-			Assert(true);
+			Assert.That(waitTimeModifiersQuery["total_rows"].ToString(), Is.EqualTo("4"));
+			var rows = waitTimeModifiersQuery["rows"];
+			foreach (var row in rows){
+				Assert.That(row["value"]["type"].ToString(), Is.EqualTo("wait_time_modifier"));
+			}
 		}
 
 	}

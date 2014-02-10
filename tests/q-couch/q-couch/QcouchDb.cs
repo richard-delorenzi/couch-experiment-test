@@ -54,7 +54,7 @@ namespace Qcouch
 
 		public JObject WaitTimeModifiers()
 		{
-			CouchApi.Get(Rewrite("waitTimeModifiers"));
+			CouchApi.Get(Rewrite("wait-time-modifier-view"));
 			var responce = CouchApi.Responce.Text.ToString();
 			var o = JObject.Parse(responce);
 			return o;
@@ -66,7 +66,7 @@ namespace Qcouch
 			o.Add("attraction_id", idToken);
 			o.Remove("ride_name");
 
-			CreateDoc("ride-status", o);
+			CreateDoc("ride_status", o);
 		}
 
 		protected void CreateRide(JObject o){
