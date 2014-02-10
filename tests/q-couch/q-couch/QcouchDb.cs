@@ -52,21 +52,34 @@ namespace Qcouch
 			return o;
 		}
 
-		protected void CreateRideStatus(JObject o){
-			var typeToken = JToken.FromObject("ride-status");
-			o.Add( "type", typeToken );
+		public JObject WaitTimeModifiers()
+		{
+			CouchApi.Get(Rewrite("waitTimeModifiers"));
+			var responce = CouchApi.Responce.Text.ToString();
+			var o = JObject.Parse(responce);
+			return o;
+		}
 
+		protected void CreateRideStatus(JObject o){
 			var attraction_id=RideId(o.AsString("ride_name"));
 			var idToken = JToken.FromObject(attraction_id);
 			o.Add("attraction_id", idToken);
-
 			o.Remove("ride_name");
 
-			CreateRecord( o );
+			CreateDoc("ride-status", o);
 		}
 
 		protected void CreateRide(JObject o){
-			var typeToken = JToken.FromObject("ride");
+			CreateDoc("ride", o);
+		}
+
+		protected void CreateWaitTimeModifiers(JObject o){
+			CreateDoc("wait_time_modifier", o);
+		}
+
+		private void CreateDoc(string type, JObject o)
+		{
+			var typeToken = JToken.FromObject(type);
 			o.Add( "type", typeToken );
 			CreateRecord( o );
 		}

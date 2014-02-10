@@ -9,19 +9,33 @@ using Richard.String;
 namespace Qcouch
 {
 	[TestFixture]
-	public class TestCreate
+	public class TestWaitTimeModifiers
 	{
-		#region rides
-		[Test]
-		public void RideList(){
-			var db = new QcouchDbCreateRides();
+		QcouchDbCreateRides db;
+
+		public void Init(){
+			db = new QcouchDbCreateRides();
 			db.CreateNew();
 			db.CreateSomeRides();
 			db.CreateSomeRideStatus();
+			db.CreateSomeWaitTimeModifiers();
 		}
-		#endregion
 
+		[Test]
+		public void Setup(){}
 
+		[Test]
+		public void HasWaitTimeMods(){
+			Init();
+			var waitTimeModifiersQuery = db.WaitTimeModifiers();
+			Assert(true);
+		}
+
+	}
+
+	[TestFixture]
+	public class TestCreate
+	{
 		#region rides_of_different_types
 		[Test]
 		public void CreateEmpty(){

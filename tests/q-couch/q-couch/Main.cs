@@ -8,8 +8,8 @@ namespace Qcouch
 		[STAThread]
 		public static void Main (string[] args)
 		{
-			var tests = new TestCreate();
-			tests.Create();
+			var tests = new TestWaitTimeModifiers();
+			tests.HasWaitTimeMods();
 		}
 	}
 }
