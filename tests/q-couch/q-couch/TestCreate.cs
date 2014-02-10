@@ -13,6 +13,7 @@ namespace Qcouch
 	{
 		QcouchDbCreateRides db;
 
+		[SetUp]
 		public void Init(){
 			db = new QcouchDbCreateRides();
 			db.CreateNew();
@@ -26,7 +27,6 @@ namespace Qcouch
 
 		[Test]
 		public void WaitTimeModView(){
-			Init();
 			var waitTimeModifiersQuery = db.WaitTimeModifiers();
 			Assert.That(waitTimeModifiersQuery["total_rows"].ToString(), Is.EqualTo("4"));
 			var rows = waitTimeModifiersQuery["rows"];
@@ -37,10 +37,15 @@ namespace Qcouch
 
 		[Test]
 		public void RideListHasWaitTimeModifiers(){
-			Init();
 			var ridesQuery = db.Rides();
 			var waitTimeMods = ridesQuery["wait_time_modifiers"];
 			Assert.That(waitTimeMods, Is.Not.Null);
+		}
+
+		[Test]
+		public void RidesHaveWaitTimeModifiers(){
+			var ridesQuery = db.Rides();
+
 		}
 	}
 	[TestFixture]
