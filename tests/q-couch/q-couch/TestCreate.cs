@@ -35,8 +35,14 @@ namespace Qcouch
 			}
 		}
 
+		[Test]
+		public void RideListHasWaitTimeModifiers(){
+			Init();
+			var ridesQuery = db.Rides();
+			var waitTimeMods = ridesQuery["wait_time_modifiers"];
+			Assert.That(waitTimeMods, Is.Not.Null);
+		}
 	}
-
 	[TestFixture]
 	public class TestCreate
 	{
