@@ -8,8 +8,11 @@ namespace Qcouch
 		[STAThread]
 		public static void Main (string[] args)
 		{
-			var tests = new TestWaitTimeModifiers();
-			tests.RideListHasWaitTimeModifiers();
+			NUnit.Gui.AppEntry.Main(
+				new string[] {
+				System.Reflection.Assembly.GetExecutingAssembly().Location, 
+				"-run"
+			});
 		}
 	}
 }
