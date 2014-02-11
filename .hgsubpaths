@@ -1,3 +1,5 @@
 [subpaths]
 ^git\+ssh://git@github\.com:([^/]*)/([^/]*)/([^/]*)$ = git+ssh://git@github.com:\1/\3.git
 
+^ssh://hg@bitbucket\.org:([^/]*)/([^/]*)/([^/]*)$ = ssh://hg@bitbucket.org:\1/\3.
+
