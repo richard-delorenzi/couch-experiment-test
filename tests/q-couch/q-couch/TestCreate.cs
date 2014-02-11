@@ -36,16 +36,25 @@ namespace Qcouch
 		}
 
 		[Test]
-		public void RideListHasWaitTimeModifiers(){
-			var ridesQuery = db.Rides();
-			var waitTimeMods = ridesQuery["wait_time_modifiers"];
-			Assert.That(waitTimeMods, Is.Not.Null);
-		}
+		[Category("debug")]
+		public void RideListWaitTimeModifiers() {
+			var ridesQuery=db.Rides();
+			var rides=ridesQuery["rides"];
 
-		[Test]
-		public void RidesHaveWaitTimeModifiers(){
-			var ridesQuery = db.Rides();
+			foreach (var ride in rides) {
+				var waitTimes= ride["wait_time_min"];
+				Assert.That(waitTimes, Is.Not.Null, "Ride list has wait time modifiers");
 
+				var names=new List<string>{"instant", "gold", "silver", "bronze"};
+				var namesEnumerator=names.GetEnumerator();
+				foreach (var mod in waitTimes) {
+					namesEnumerator.MoveNext();
+					var expectedValue="0";
+					var expectedName=namesEnumerator.Current;
+					var name=mod["name"].ToString();
+					Assert.That(name, Is.EqualTo(expectedName));
+				}
+			}
 		}
 	}
 	[TestFixture]
@@ -149,3 +158,4 @@ namespace Qcouch
 	}
 }
 
+ 

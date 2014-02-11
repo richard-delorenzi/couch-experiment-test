@@ -5,13 +5,14 @@ namespace Qcouch
 {
 	class MainClass
 	{
-		[STAThread]
+		//[STAThread]
 		public static void Main (string[] args)
 		{
 			NUnit.Gui.AppEntry.Main(
 				new string[] {
 				System.Reflection.Assembly.GetExecutingAssembly().Location, 
-				"-run"
+				"-run",
+				"-include=debug"
 			});
 		}
 	}
